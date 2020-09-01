@@ -6,6 +6,24 @@ import telran.employes.dto.ReturnCodes;
 public interface EmployeeServise {
 	/**
 	 * 
+	 */
+	public void printEmployees();
+	
+	/**
+	 * 
+	 */
+	public void clearAll();
+	
+	/**
+	 * 
+	 * @param param
+	 * @return
+	 * @throws Exception
+	 */
+	public int emplMapSize(String param) throws Exception ;
+	
+	/**
+	 * 
 	 * @param empl
 	 * @return
 	 */
