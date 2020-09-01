@@ -89,8 +89,36 @@ class TestEmployees {
 
 	@Test
 	void testRemoveEmployee() {
-		assertEquals(ReturnCodes.EMPLOYEE_NOT_FOUND, employeesMap.removeEmployee(1232213));
-		assertEquals(ReturnCodes.OK, employeesMap.removeEmployee(gregoryId));
+		int mapEmployeesSize = 0;
+		int mapEmployeesSalarySize = 0;
+		int mapEmployeesAgeSize = 0;
+		int mapEmployeesDepartmentSize = 0;
+		try {
+			mapEmployeesSize = employeesMap.emplMapSizeByKey("backendDeveloper");
+//			mapEmployeesSalarySize = employeesMap.emplMapSize("salary");
+//			mapEmployeesAgeSize = employeesMap.emplMapSize("age");
+//			mapEmployeesDepartmentSize = employeesMap.emplMapSize("department");
+		} catch (Throwable e) {
+			fail();
+		}
+		
+		try {
+		System.out.println(employeesMap.emplMapSize("department"));
+		}catch(Throwable e) {
+			fail();
+		}
+		employeesMap.removeEmployee(gregoryId);
+		//assertEquals(ReturnCodes.EMPLOYEE_NOT_FOUND, employeesMap.removeEmployee(1232213));
+		//assertEquals(ReturnCodes.OK, employeesMap.removeEmployee(gregoryId));
+		try {
+			System.out.println(employeesMap.emplMapSizeByKey("backendDeveloper"));
+//			assertEquals(mapEmployeesSize - 1, employeesMap.emplMapSize("employees"));
+//			assertEquals(mapEmployeesSalarySize - 1, employeesMap.emplMapSize("salary"));
+//			assertEquals(mapEmployeesAgeSize - 1, employeesMap.emplMapSize("age"));
+//			assertEquals(mapEmployeesDepartmentSize - 1, employeesMap.emplMapSize("department"));
+		}catch(Throwable e) {
+			fail();
+		}
 
 	}
 

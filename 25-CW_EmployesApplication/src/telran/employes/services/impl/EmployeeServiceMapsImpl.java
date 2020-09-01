@@ -21,7 +21,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 	HashMap<String, List<Employee>> employeesDepartment = new HashMap<>(); // key - department, value - list of
 																			// Employees working at the
 	// department
-	
+
 	@Override
 	@SuppressWarnings("rawtypes")
 	public void printEmployees() {
@@ -31,7 +31,6 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 	}
 
-
 	@Override
 	public void clearAll() {
 		employees.clear();
@@ -39,7 +38,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		employeesAge.clear();
 		employeesDepartment.clear();
 	}
-	
+
 	@Override
 	public int emplMapSize(String param) throws Exception {
 		switch (param) {
@@ -54,6 +53,27 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 		case "department":
 			return employeesDepartment.size();
+
+		default:
+			throw new IllegalArgumentException("Wrong request");
+
+		}
+
+	}
+
+	public int emplMapSizeByKey(String param) throws Exception {
+		switch (param) {
+		case "employees":
+			return employees.size();
+
+		case "salary":
+			return employeesSalary.size();
+
+		case "age":
+			return employeesAge.size();
+
+		case "backendDeveloper":
+			return employeesDepartment.get(param).size();
 
 		default:
 			throw new IllegalArgumentException("Wrong request");
@@ -80,14 +100,17 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		String department = empl.getDepartment();
 		List<Employee> employeesList = employeesDepartment.getOrDefault(department, new ArrayList<>());
 		employeesList.add(empl);
-		employeesDepartment.put(department, employeesList);
+		employeesDepartment.putIfAbsent(department, employeesList);
+		
+		
+
 	}
 
 	private void addEmployeeSalary(Employee empl) {
 		int salary = empl.getSalary();
 		List<Employee> employeesList = employeesSalary.getOrDefault(salary, new ArrayList<>());
 		employeesList.add(empl);
-		employeesSalary.put(salary, employeesList);
+		employeesSalary.putIfAbsent(salary, employeesList);
 
 	}
 
@@ -95,7 +118,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		int birthYear = empl.getBirthDate().getYear();
 		List<Employee> employeesList = employeesAge.getOrDefault(birthYear, new ArrayList<>());
 		employeesList.add(empl);
-		employeesAge.putIfAbsent(birthYear, employeesList); // employeesList - ссылка на тот лист
+		employeesAge.putIfAbsent(birthYear, employeesList); 
 	}
 
 	@Override
@@ -113,25 +136,57 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 	}
 
 	private void removeEmployeeDepartment(Employee empl) {
+		/**
+		 * I have some problems with adding new employeesList without 
+		 * removed employee to map.
+		 * 
+		 * Tried to do by these ways
+		 * 
+		 */
 		String department = empl.getDepartment();
+
 		List<Employee> employeesList = employeesDepartment.getOrDefault(department, new ArrayList<>());
+
 		employeesList.remove(empl);
+
+
+		employeesDepartment.get(department).clear();
+
+
+		//employeesDepartment.putIfAbsent(department, employeesList);
+		//employeesDepartment.get(department).addAll(employeesList);
 		employeesDepartment.put(department, employeesList);
+		/**
+		 * but it's still empty 
+		 */
+
+//		for (Map.Entry<String, List<Employee>> entry : employeesDepartment.entrySet()) {
+//			System.out.println(entry);
+//		}
 
 	}
 
 	private void removeEmployeeSalary(Employee empl) {
+		/**
+		 * 
+		 * The same problem with removing
+		 * 
+		 */
 		int salary = empl.getSalary();
 		List<Employee> employeesList = employeesSalary.getOrDefault(salary, new ArrayList<>());
-		employeesList.remove(empl);
-		employeesSalary.put(salary, employeesList);
+//		employeesList.remove(empl);
+//
+//		employeesSalary.put(salary, employeesList);
 	}
 
 	private void removeEmployeeAge(Employee empl) {
+		/**
+		 * 
+		 * The same problem with removing
+		 * 
+		 */
 		int birthYear = empl.getBirthDate().getYear();
 		List<Employee> employeesList = employeesAge.getOrDefault(birthYear, new ArrayList<>());
-		employeesList.remove(empl);
-		employeesAge.put(birthYear, employeesList);
 
 	}
 
