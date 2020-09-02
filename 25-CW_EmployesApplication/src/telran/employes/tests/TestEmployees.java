@@ -59,21 +59,11 @@ class TestEmployees {
 		int withSameSalary = 6;
 		int withSameAge = 6;
 		int withSameDepartment = 4;
-		try {
 			assertEquals(listEmpl.length, employeesMap.emplMapSize("employees"));
 			assertEquals(withSameSalary, employeesMap.emplMapSize("salary"));
 			assertEquals(withSameAge, employeesMap.emplMapSize("age"));
 			assertEquals(withSameDepartment, employeesMap.emplMapSize("department"));
-		} catch (Throwable e) {
-			fail();
-		}
 
-		try {
-			employeesMap.emplMapSize("lastName");
-			fail();
-		} catch (Throwable e) {
-
-		}
 
 	}
 
@@ -89,36 +79,11 @@ class TestEmployees {
 
 	@Test
 	void testRemoveEmployee() {
-		int mapEmployeesSize = 0;
-		int mapEmployeesSalarySize = 0;
-		int mapEmployeesAgeSize = 0;
-		int mapEmployeesDepartmentSize = 0;
-		try {
-			mapEmployeesSize = employeesMap.emplMapSizeByKey("backendDeveloper");
-//			mapEmployeesSalarySize = employeesMap.emplMapSize("salary");
-//			mapEmployeesAgeSize = employeesMap.emplMapSize("age");
-//			mapEmployeesDepartmentSize = employeesMap.emplMapSize("department");
-		} catch (Throwable e) {
-			fail();
-		}
-		
-		try {
-		System.out.println(employeesMap.emplMapSize("department"));
-		}catch(Throwable e) {
-			fail();
-		}
+
+		assertEquals(ReturnCodes.OK, employeesMap.removeEmployee(gregoryId));
+
 		employeesMap.removeEmployee(gregoryId);
-		//assertEquals(ReturnCodes.EMPLOYEE_NOT_FOUND, employeesMap.removeEmployee(1232213));
-		//assertEquals(ReturnCodes.OK, employeesMap.removeEmployee(gregoryId));
-		try {
-			System.out.println(employeesMap.emplMapSizeByKey("backendDeveloper"));
-//			assertEquals(mapEmployeesSize - 1, employeesMap.emplMapSize("employees"));
-//			assertEquals(mapEmployeesSalarySize - 1, employeesMap.emplMapSize("salary"));
-//			assertEquals(mapEmployeesAgeSize - 1, employeesMap.emplMapSize("age"));
-//			assertEquals(mapEmployeesDepartmentSize - 1, employeesMap.emplMapSize("department"));
-		}catch(Throwable e) {
-			fail();
-		}
+		assertEquals(ReturnCodes.EMPLOYEE_NOT_FOUND, employeesMap.removeEmployee(gregoryId));
 
 	}
 

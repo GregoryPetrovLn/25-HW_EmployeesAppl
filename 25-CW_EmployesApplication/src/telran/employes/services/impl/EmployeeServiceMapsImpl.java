@@ -40,7 +40,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 	}
 
 	@Override
-	public int emplMapSize(String param) throws Exception {
+	public int emplMapSize(String param) {
 		switch (param) {
 		case "employees":
 			return employees.size();
@@ -55,29 +55,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 			return employeesDepartment.size();
 
 		default:
-			throw new IllegalArgumentException("Wrong request");
-
-		}
-
-	}
-
-	public int emplMapSizeByKey(String param) throws Exception {
-		switch (param) {
-		case "employees":
-			return employees.size();
-
-		case "salary":
-			return employeesSalary.size();
-
-		case "age":
-			return employeesAge.size();
-
-		case "backendDeveloper":
-			return employeesDepartment.get(param).size();
-
-		default:
-			throw new IllegalArgumentException("Wrong request");
-
+			return -1;
 		}
 
 	}
@@ -98,17 +76,17 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 	private void addEmployeeDepartment(Employee empl) {
 		String department = empl.getDepartment();
-		List<Employee> employeesList = employeesDepartment.getOrDefault(department, new ArrayList<>());
+
+		List<Employee> employeesList = employeesDepartment.computeIfAbsent(department, n -> new ArrayList<>());
+
 		employeesList.add(empl);
 		employeesDepartment.putIfAbsent(department, employeesList);
-		
-		
 
 	}
 
 	private void addEmployeeSalary(Employee empl) {
 		int salary = empl.getSalary();
-		List<Employee> employeesList = employeesSalary.getOrDefault(salary, new ArrayList<>());
+		List<Employee> employeesList = employeesSalary.computeIfAbsent(salary, n -> new ArrayList<>());
 		employeesList.add(empl);
 		employeesSalary.putIfAbsent(salary, employeesList);
 
@@ -116,9 +94,9 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 	private void addEmployeeAge(Employee empl) {
 		int birthYear = empl.getBirthDate().getYear();
-		List<Employee> employeesList = employeesAge.getOrDefault(birthYear, new ArrayList<>());
+		List<Employee> employeesList = employeesAge.computeIfAbsent(birthYear, n -> new ArrayList<>());
 		employeesList.add(empl);
-		employeesAge.putIfAbsent(birthYear, employeesList); 
+		employeesAge.putIfAbsent(birthYear, employeesList);
 	}
 
 	@Override
@@ -136,58 +114,24 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 	}
 
 	private void removeEmployeeDepartment(Employee empl) {
-		/**
-		 * I have some problems with adding new employeesList without 
-		 * removed employee to map.
-		 * 
-		 * Tried to do by these ways
-		 * 
-		 */
 		String department = empl.getDepartment();
 
-		List<Employee> employeesList = employeesDepartment.getOrDefault(department, new ArrayList<>());
+		List<Employee> employeesList = employeesDepartment.get(department);
 
 		employeesList.remove(empl);
-
-
-		employeesDepartment.get(department).clear();
-
-
-		//employeesDepartment.putIfAbsent(department, employeesList);
-		//employeesDepartment.get(department).addAll(employeesList);
-		employeesDepartment.put(department, employeesList);
-		/**
-		 * but it's still empty 
-		 */
-
-//		for (Map.Entry<String, List<Employee>> entry : employeesDepartment.entrySet()) {
-//			System.out.println(entry);
-//		}
 
 	}
 
 	private void removeEmployeeSalary(Employee empl) {
-		/**
-		 * 
-		 * The same problem with removing
-		 * 
-		 */
 		int salary = empl.getSalary();
-		List<Employee> employeesList = employeesSalary.getOrDefault(salary, new ArrayList<>());
-//		employeesList.remove(empl);
-//
-//		employeesSalary.put(salary, employeesList);
+		List<Employee> employeesList = employeesSalary.get(salary);
+		employeesList.remove(empl);
 	}
 
 	private void removeEmployeeAge(Employee empl) {
-		/**
-		 * 
-		 * The same problem with removing
-		 * 
-		 */
 		int birthYear = empl.getBirthDate().getYear();
-		List<Employee> employeesList = employeesAge.getOrDefault(birthYear, new ArrayList<>());
-
+		List<Employee> employeesList = employeesAge.get(birthYear);
+		employeesList.remove(empl);
 	}
 
 	@Override
