@@ -17,12 +17,9 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 	TreeMap<Integer, List<Employee>> employeesAge = new TreeMap<>(); // key - birth year, value - list of Employes born
 																		// at the year
-
 	HashMap<String, List<Employee>> employeesDepartment = new HashMap<>(); // key - department, value - list of
-																			// Employees working at the
-	// department
+																			// Employees working at the department
 
-	@Override
 	@SuppressWarnings("rawtypes")
 	public void printEmployees() {
 		for (Map.Entry entry : employees.entrySet()) {
@@ -31,7 +28,6 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 	}
 
-	@Override
 	public void clearAll() {
 		employees.clear();
 		employeesSalary.clear();
@@ -39,7 +35,6 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		employeesDepartment.clear();
 	}
 
-	@Override
 	public int emplMapSize(String param) {
 		switch (param) {
 		case "employees":
@@ -119,6 +114,9 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		List<Employee> employeesList = employeesDepartment.get(department);
 
 		employeesList.remove(empl);
+		if(employeesList.isEmpty()) {
+			employeesDepartment.remove(department);
+		}
 
 	}
 
@@ -126,12 +124,20 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		int salary = empl.getSalary();
 		List<Employee> employeesList = employeesSalary.get(salary);
 		employeesList.remove(empl);
+		
+		if(employeesList.isEmpty()) {
+			employeesSalary.remove(salary);
+		}
 	}
 
 	private void removeEmployeeAge(Employee empl) {
 		int birthYear = empl.getBirthDate().getYear();
 		List<Employee> employeesList = employeesAge.get(birthYear);
 		employeesList.remove(empl);
+		
+		if(employeesList.isEmpty()) {
+			employeesAge.remove(birthYear);
+		}
 	}
 
 	@Override
