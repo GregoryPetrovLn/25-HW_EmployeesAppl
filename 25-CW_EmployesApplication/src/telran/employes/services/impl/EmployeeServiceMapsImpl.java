@@ -90,6 +90,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 	private void addEmployeeAge(Employee empl) {
 		int birthYear = empl.getBirthDate().getYear();
 		List<Employee> employeesList = employeesAge.computeIfAbsent(birthYear, n -> new ArrayList<>());
+
 		employeesList.add(empl);
 		employeesAge.putIfAbsent(birthYear, employeesList);
 	}
