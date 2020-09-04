@@ -63,7 +63,7 @@ class TestEmployees {
 			assertEquals(withSameAge, employeesMap.emplMapSize("age"));
 			assertEquals(withSameDepartment, employeesMap.emplMapSize("department"));
 
-
+			employeesMap.printEmployees();
 	}
 
 	@Test

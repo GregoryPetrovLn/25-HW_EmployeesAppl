@@ -22,7 +22,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 
 	@SuppressWarnings("rawtypes")
 	public void printEmployees() {
-		for (Map.Entry entry : employees.entrySet()) {
+		for (Map.Entry entry : employeesDepartment.entrySet()) {
 			System.out.println(entry.getValue());
 		}
 
@@ -75,7 +75,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		List<Employee> employeesList = employeesDepartment.computeIfAbsent(department, n -> new ArrayList<>());
 
 		employeesList.add(empl);
-		employeesDepartment.putIfAbsent(department, employeesList);
+		employeesDepartment.put(department, employeesList);
 
 	}
 
@@ -83,7 +83,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		int salary = empl.getSalary();
 		List<Employee> employeesList = employeesSalary.computeIfAbsent(salary, n -> new ArrayList<>());
 		employeesList.add(empl);
-		employeesSalary.putIfAbsent(salary, employeesList);
+		employeesSalary.put(salary, employeesList);
 
 	}
 
@@ -92,7 +92,7 @@ public class EmployeeServiceMapsImpl implements EmployeeServise {
 		List<Employee> employeesList = employeesAge.computeIfAbsent(birthYear, n -> new ArrayList<>());
 
 		employeesList.add(empl);
-		employeesAge.putIfAbsent(birthYear, employeesList);
+		employeesAge.put(birthYear, employeesList);
 	}
 
 	@Override
